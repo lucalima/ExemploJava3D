@@ -52,29 +52,29 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
-
         GregorianCalendar calendar = new GregorianCalendar();
-        int horaInicial = calendar.get(Calendar.SECOND);  
-         System.out.println(horaInicial);
+        int horaInicial = calendar.get(Calendar.SECOND);
+        System.out.println(horaInicial);
         saySomething("Mouse moved", e);
-     
+
     }
+
+    @Override
     public void mouseDragged(MouseEvent e) {
         saySomething("Mouse dragged", e);
     }
 
     void saySomething(String eventDescription, MouseEvent e) {
         textArea.append(eventDescription + " (" + e.getX() + "," + e.getY() + ")" + " detected on "
-                + e.getComponent().getClass().getName()+ newline);
+                + e.getComponent().getClass().getName() + newline);
         textArea.setCaretPosition(textArea.getDocument().getLength());
     }
-    
-    public void timeMouse() 
-    {
+
+    public void timeMouse() {
         long tempInicial = System.currentTimeMillis();
-        for (int i = 0; i <= 1000; i++) 
-        {
+        for (int i = 0; i <= 1000; i++) {
             System.out.println("Esperando o tempo passar ..");
         }
         long tempFinal = System.currentTimeMillis();
@@ -82,8 +82,7 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
 
         System.out.println(String.format("%02d segundos  e %02d milisegundos", dif / 60, dif % 60));
     }
-    
-  
+
     private static void createAndShowGUI() {
         //Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -103,6 +102,7 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 createAndShowGUI();
             }
