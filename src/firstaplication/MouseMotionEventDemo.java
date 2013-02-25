@@ -1,5 +1,7 @@
 package firstAplication;
 
+import com.sun.xml.internal.ws.api.message.Message;
+import firstaplication.Chronometer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -21,11 +23,15 @@ import javax.swing.JTextArea;
 
 public class MouseMotionEventDemo extends JPanel implements MouseMotionListener {
 
+    private static final long TEMPO_INICIAL_CLASSE = System.currentTimeMillis();
+    Chronometer cronometro = new Chronometer();
     BlankArea blankArea;
     JTextArea textArea;
     static final String newline = "\n";
 
     public MouseMotionEventDemo() {
+
+
         super(new GridBagLayout());
         GridBagLayout gridbag = (GridBagLayout) getLayout();
         GridBagConstraints c = new GridBagConstraints();
@@ -52,38 +58,51 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+    }
 
-        GregorianCalendar calendar = new GregorianCalendar();
-        int horaInicial = calendar.get(Calendar.SECOND);  
-         System.out.println(horaInicial);
-        saySomething("Mouse moved", e);
-     
+  
+    public void mouseEntered(MouseEvent e) {
+       saySomething("Mouse entro", e);
     }
+
+   
+    public void mouseExited(MouseEvent e) {
+       saySomething("Mouse saiu", e);
+    }
+
+  
+    public void mousePressed(MouseEvent e) {
+        saySomething("Mouse Nao sei", e);
+    }
+
+   
+    public void mouseReleased(MouseEvent e) {
+       saySomething("Botao solto", e);
+    }
+
+    
     public void mouseDragged(MouseEvent e) {
-        saySomething("Mouse dragged", e);
+      saySomething("Botao apertado", e);
     }
+
+
+
+    public void mouseMoved(MouseEvent e) {
+   saySomething("Mouse moveu", e);
+    }
+
 
     void saySomething(String eventDescription, MouseEvent e) {
-        textArea.append(eventDescription + " (" + e.getX() + "," + e.getY() + ")" + " detected on "
-                + e.getComponent().getClass().getName()+ newline);
-        textArea.setCaretPosition(textArea.getDocument().getLength());
-    }
-    
-    public void timeMouse() 
-    {
-        long tempInicial = System.currentTimeMillis();
-        for (int i = 0; i <= 1000; i++) 
-        {
-            System.out.println("Esperando o tempo passar ..");
-        }
-        long tempFinal = System.currentTimeMillis();
-        long dif = (tempFinal - tempInicial);
 
-        System.out.println(String.format("%02d segundos  e %02d milisegundos", dif / 60, dif % 60));
+        textArea.append(eventDescription + " (" + e.getX() + "," + e.getY() + ")" + " detected on "
+                + e.getComponent().getClass().getName() + newline);
+        textArea.setCaretPosition(textArea.getDocument().getLength());
+        textArea.addMouseMotionListener(this);
+
     }
-    
-  
+
     private static void createAndShowGUI() {
         //Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -97,14 +116,19 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+
+
     }
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
+
+
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+
             }
         });
     }
