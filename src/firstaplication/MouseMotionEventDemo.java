@@ -7,11 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.Calendar;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -54,16 +49,16 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        int horaInicial = calendar.get(Calendar.SECOND);
-        System.out.println(horaInicial);
         saySomething("Mouse moved", e);
-
+        String metodo = "mouseMoved";
+        timeMouse(metodo);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         saySomething("Mouse dragged", e);
+        String metodo = "mouseMoved";
+        timeMouse(metodo);
     }
 
     void saySomething(String eventDescription, MouseEvent e) {
@@ -72,15 +67,15 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         textArea.setCaretPosition(textArea.getDocument().getLength());
     }
 
-    public void timeMouse() {
+    public void timeMouse(String metodo) {
         long tempInicial = System.currentTimeMillis();
         for (int i = 0; i <= 1000; i++) {
             System.out.println("Esperando o tempo passar ..");
         }
         long tempFinal = System.currentTimeMillis();
         long dif = (tempFinal - tempInicial);
-
-        System.out.println(String.format("%02d segundos  e %02d milisegundos", dif / 60, dif % 60));
+       
+        System.out.println(String.format("%02d segundos  e %02d milisegundos", dif / 1000, dif % 60) + " metodo");
     }
 
     private static void createAndShowGUI() {
