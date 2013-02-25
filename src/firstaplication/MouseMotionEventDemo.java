@@ -82,16 +82,17 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
        saySomething("Botao solto", e);
     }
 
-    
+    public void mouseMoved(MouseEvent e) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        int horaInicial = calendar.get(Calendar.SECOND);
+        System.out.println(horaInicial);
+        saySomething("Mouse moved", e);
+
+    }
     public void mouseDragged(MouseEvent e) {
       saySomething("Botao apertado", e);
     }
 
-
-
-    public void mouseMoved(MouseEvent e) {
-   saySomething("Mouse moveu", e);
-    }
 
 
     void saySomething(String eventDescription, MouseEvent e) {
@@ -101,6 +102,17 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         textArea.setCaretPosition(textArea.getDocument().getLength());
         textArea.addMouseMotionListener(this);
 
+    }
+
+    public void timeMouse() {
+        long tempInicial = System.currentTimeMillis();
+        for (int i = 0; i <= 1000; i++) {
+            System.out.println("Esperando o tempo passar ..");
+        }
+        long tempFinal = System.currentTimeMillis();
+        long dif = (tempFinal - tempInicial);
+
+        System.out.println(String.format("%02d segundos  e %02d milisegundos", dif / 60, dif % 60));
     }
 
     private static void createAndShowGUI() {
@@ -126,6 +138,7 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
 
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 createAndShowGUI();
 
