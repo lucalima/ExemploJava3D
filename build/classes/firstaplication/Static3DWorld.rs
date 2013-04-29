@@ -1,0 +1,1 @@
+firstAplication.Static3DWorld

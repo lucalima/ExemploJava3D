@@ -10,19 +10,19 @@ import javax.vecmath.*;
 
 public class BehaviorExample extends JFrame {
 
-    ///////////////////////////////////////////////////////////////////////
-    // Atributo da classe BehaviorExample
-    //
+    //////////////////////////////////////////
+    // Atributo da classe BehaviorExample ///
+    ////////////////////////////////////////
     private SimpleUniverse universe = null;
 
-    ///////////////////////////////////////////////////////////////////////
-    // Construtor da classe BehaviorExample
-    //
+    ////////////////////////////////////////////
+    // Construtor da classe BehaviorExample ///
+    //////////////////////////////////////////
     public BehaviorExample() {
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
         GraphicsConfiguration config =
-           SimpleUniverse.getPreferredConfiguration();
+                SimpleUniverse.getPreferredConfiguration();
 
         Canvas3D canvas = new Canvas3D(config);
         container.add("Center", canvas);
@@ -36,25 +36,25 @@ public class BehaviorExample extends JFrame {
         // visualizados
         ViewingPlatform viewingPlatform = universe.getViewingPlatform();
         viewingPlatform.setNominalViewingTransform();
-        
+
         // Adiciona "mouse behaviors" � "viewingPlatform" 
         // (equivale a trocar a posi��o do "observador virtual")
         OrbitBehavior orbit = new OrbitBehavior(canvas, OrbitBehavior.REVERSE_ALL);
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
         orbit.setSchedulingBounds(bounds);
         viewingPlatform.setViewPlatformBehavior(orbit);
-     
+
         universe.addBranchGraph(scene);
-        
-        setSize(350,350);
+
+        setSize(350, 350);
         setVisible(true);
     }
-    
+
     ///////////////////////////////////////////////////////////////////////
     // M�todo respons�vel pela cria��o do grafo de cena (ou sub-grafo)
     //    
     public BranchGroup criaGrafoDeCena() {
-        
+
         // Cria o n� raiz 
         BranchGroup objRaiz = new BranchGroup();
 
@@ -66,8 +66,7 @@ public class BehaviorExample extends JFrame {
         objRaiz.addChild(objTrans);
 
         // Cria um "bounds" para o background 
-        BoundingSphere bounds =
-           new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
+        BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 
         // Especifica um background azul e adiciona-o no grafo
         Color3f bgColor = new Color3f(0.1f, 0.1f, 0.7f);
@@ -76,35 +75,34 @@ public class BehaviorExample extends JFrame {
         objRaiz.addChild(bg);
 
         // Especifica as luzes do "ambiente"
-        
         // Luz Ambiente
         Color3f corAmb = new Color3f(0.2f, 0.2f, 0.2f);
         AmbientLight luzAmb = new AmbientLight(corAmb);
         luzAmb.setInfluencingBounds(bounds);
-        objRaiz.addChild(luzAmb);        
- 
+        objRaiz.addChild(luzAmb);
+
         // Luz Direcional
         Color3f corLuz = new Color3f(0.9f, 0.9f, 0.9f);
-        Vector3f direcaoLuz  = new Vector3f(-1.0f, -1.0f, -1.0f);
+        Vector3f direcaoLuz = new Vector3f(-1.0f, -1.0f, -1.0f);
         DirectionalLight luzDir = new DirectionalLight(corLuz, direcaoLuz);
         luzDir.setInfluencingBounds(bounds);
-        objRaiz.addChild(luzDir); 
-        
+        objRaiz.addChild(luzDir);
+
         Appearance app = new Appearance();
 
         //Color3f ambientColor, Color3f emissiveColor, Color3f diffuseColor, 
         //				Color3f specularColor, float shininess
-        Material material = new Material(new Color3f(0.8f,0.2f,0.8f), 
-						new Color3f(0.0f,0.0f,0.0f), 
-						new Color3f(0.8f,0.2f,0.8f), 
-						new Color3f(1.0f,1.0f,1.0f), 100.0f); 
+        Material material = new Material(new Color3f(0.8f, 0.2f, 0.8f),
+                new Color3f(0.0f, 0.0f, 0.0f),
+                new Color3f(0.8f, 0.2f, 0.8f),
+                new Color3f(1.0f, 1.0f, 1.0f), 100.0f);
 
         app.setMaterial(material);
-        
+
         Cylinder cilindro = new Cylinder(0.5f, 0.8f, 1, 20, 10, app);
-        
-        objTrans.addChild(cilindro);  
-    
+
+        objTrans.addChild(cilindro);
+
         // Para o Java 3D realizar otimiza��es no grafo de cena
         objRaiz.compile();
 
@@ -114,8 +112,7 @@ public class BehaviorExample extends JFrame {
     ///////////////////////////////////////////////////////////////////////
     // M�todo principal que permite executar a aplica��o
     //
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         BehaviorExample h = new BehaviorExample();
     }
 }

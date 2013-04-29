@@ -39,8 +39,7 @@ public class MouseMotionEventDemo extends JPanel implements MouseMotionListener 
         c.insets = new Insets(0, 0, 0, 0);
         textArea = new JTextArea();
         textArea.setEditable(false);
-        JScrollPane scrollPane =
-                new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(200, 75));
         gridbag.setConstraints(scrollPane, c);
         add(scrollPane);

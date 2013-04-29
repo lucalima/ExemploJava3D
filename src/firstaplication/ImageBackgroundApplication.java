@@ -90,7 +90,7 @@ public class ImageBackgroundApplication extends JFrame {
 
         // objeto para abrir imagens
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        TextureLoader texturaBg = new TextureLoader(toolkit.getImage("C:\\Users\\Luiz Brand�o\\workspace\\JavaSimples\\br\\com\\j3d\\exemplos\\stone.jpg"), this);
+        TextureLoader texturaBg = new TextureLoader(toolkit.getImage("C:\\Users\\Luiz Brandão\\Documents\\NetBeansProjects\\FirstApplication\\src\\firstaplication\\stone.jpg"), this);
         Background bg = new Background(texturaBg.getImage());
         bg.setApplicationBounds(bounds);
         bg.setImageScaleMode(Background.SCALE_REPEAT);
