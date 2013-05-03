@@ -7,16 +7,15 @@ import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.universe.*;
 import com.sun.j3d.utils.behaviors.vp.*;
 import com.sun.j3d.utils.image.TextureLoader;
+import firstaplication.PorTempo;
 import firstaplication.Timeline;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.TreeSet;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
@@ -34,9 +33,9 @@ public class GeometryExample extends JFrame implements MouseListener, MouseMotio
     long tempoInicialParado;
     long tempoFinalParado;
     int totalClique = 0;
-    ArrayList lista = new ArrayList();
+    //ArrayList lista = new ArrayList();
     
-    //Set<Timeline> lista = new HashSet<Timeline>();
+    TreeSet<Timeline> lista = new TreeSet<Timeline>(new PorTempo());
     //////////////////////////////////////////////
     /// Construtor da classe GeometryExample  ///
     ////////////////////////////////////////////
@@ -215,11 +214,12 @@ public class GeometryExample extends JFrame implements MouseListener, MouseMotio
     @Override
     public void mouseDragged(MouseEvent e) {
         timeline(e);
+        
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        System.out.println("Moveu");
+        //System.out.println("Moveu");
     }
 
     @Override
@@ -227,7 +227,7 @@ public class GeometryExample extends JFrame implements MouseListener, MouseMotio
         //timeline("wheel ",e);
     }
 
-    public void percorre(ArrayList<Timeline> lista) {
+    public void percorre(TreeSet<Timeline> lista) {
         Iterator itr = lista.iterator();
         while (itr.hasNext()) {
             Timeline time = (Timeline) itr.next();
@@ -243,7 +243,7 @@ public class GeometryExample extends JFrame implements MouseListener, MouseMotio
     public void timeline(MouseEvent e) {
         Timeline line = new Timeline();
 
-        line.setTempo((System.currentTimeMillis() - tempoInicialApp) / 340);
+        line.setTempo((System.currentTimeMillis() - tempoInicialApp) / 1000);
         line.setX(e.getX());
         line.setY(e.getY());
         line.setZ(e.getX() ^ 2 + e.getY() ^ 2);
