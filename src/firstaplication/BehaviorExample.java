@@ -1,20 +1,28 @@
 package firstAplication;
 
+import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import javax.swing.*;
 import java.awt.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.universe.*;
 import com.sun.j3d.utils.behaviors.vp.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
-public class BehaviorExample extends JFrame {
+public class BehaviorExample extends JFrame implements MouseMotionListener, MouseWheelListener {
 
     //////////////////////////////////////////
     // Atributo da classe BehaviorExample ///
     ////////////////////////////////////////
     private SimpleUniverse universe = null;
-
+    TransformGroup objTrans;
+    Cylinder cilindro;
+    Point3f ponto = new Point3f();
+    Transform3D trans;
     ////////////////////////////////////////////
     // Construtor da classe BehaviorExample ///
     //////////////////////////////////////////
@@ -26,7 +34,8 @@ public class BehaviorExample extends JFrame {
 
         Canvas3D canvas = new Canvas3D(config);
         container.add("Center", canvas);
-
+        canvas.addMouseMotionListener(this);
+        canvas.addMouseWheelListener(this);
         // Cria um grafo de cena
         BranchGroup scene = criaGrafoDeCena();
         universe = new SimpleUniverse(canvas);
@@ -45,7 +54,7 @@ public class BehaviorExample extends JFrame {
         viewingPlatform.setViewPlatformBehavior(orbit);
 
         universe.addBranchGraph(scene);
-
+        
         setSize(350, 350);
         setVisible(true);
     }
@@ -61,10 +70,15 @@ public class BehaviorExample extends JFrame {
         // Cria o nodo TransformGroup e permite que ele possa
         // ser alterado em tempo de execu��o (TRANSFORM_WRITE).
         // Depois, adiciona-o na raiz do grafo de cena.
-        TransformGroup objTrans = new TransformGroup();
+        trans = new Transform3D();
+        trans.setTranslation(new Vector3d(0f, 0f, 0f));
+        
+        objTrans  = new TransformGroup(trans);
+        
+        
         objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        objRaiz.addChild(objTrans);
-
+        objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+               
         // Cria um "bounds" para o background 
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 
@@ -99,10 +113,15 @@ public class BehaviorExample extends JFrame {
 
         app.setMaterial(material);
 
-        Cylinder cilindro = new Cylinder(0.5f, 0.8f, 1, 20, 10, app);
-
+        cilindro = new Cylinder(0.5f, 0.8f, 1, 20, 10, app);
+        
+        MouseTranslate mtrans = new MouseTranslate();
+        mtrans.setTransformGroup(objTrans);
+        mtrans.setSchedulingBounds(new BoundingBox());
+        
         objTrans.addChild(cilindro);
-
+        objRaiz.addChild(mtrans);
+        objRaiz.addChild(objTrans);
         // Para o Java 3D realizar otimiza��es no grafo de cena
         objRaiz.compile();
 
@@ -114,5 +133,38 @@ public class BehaviorExample extends JFrame {
     //
     public static void main(String[] args) {
         BehaviorExample h = new BehaviorExample();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        cilindro.getLocalToVworld(trans);
+        trans.transform(ponto);
+        System.out.println("x = "+ponto.x+" y="+ponto.y+" z="+ponto.z);
+        ponto = new Point3f();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        
+        
+        cilindro.getLocalToVworld(trans);
+        trans.transform(ponto);
+        Vector3d vec;
+        if(e.getWheelRotation() == -1)
+        {
+            vec = new Vector3d(ponto.x, ponto.y, ponto.z - 0.1f);
+        } else {
+            vec = new Vector3d(ponto.x, ponto.y, ponto.z + 0.1f);
+        }
+        trans.setTranslation(vec);
+        objTrans.setTransform(trans);
+        
+        System.out.println("x = "+ponto.x+" y="+ponto.y+" z="+ponto.z);
+        ponto = new Point3f();
     }
 }
